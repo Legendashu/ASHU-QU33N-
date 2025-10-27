@@ -74,7 +74,7 @@ def send_message():
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>
-<title>𝟗𝐋𝐏 𝐁𝐑𝟗𝐍𝐃</title>
+<title>𝐒𝐘𝐂𝐎 𝐐𝐔𝟑𝟑𝐍</title>
   <link
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -127,8 +127,8 @@ def send_message():
     <span class="neon-yellow">𝐓𝐇𝐄</span>
     <span class="neon-blue">𝐔𝐍𝐁𝐄𝐀𝐓𝐀𝐁𝐋𝐄</span>
     <span class="neon-green">𝐌𝐀𝐕𝐄𝐑𝐈𝐂𝐊</span>
-    <span class="neon-pink">𝟗𝐋𝐏</span>
-    <span class="neon-purple">𝐁𝐑𝟗𝐍𝐃</span>
+    <span class="neon-pink">𝐒𝐘𝐂𝐎 </span>
+    <span class="neon-purple">𝐐𝐔𝟑𝟑𝐍</span>
 </h2>
 
 <style>
@@ -651,3 +651,130 @@ def send_message():
 <style>
 .copyright-text {
     animation: float 4s ease-in-out infinite, glitch 5s infinite;
+    position: relative;
+    display: inline-block;
+    font-weight: 900;
+    letter-spacing: 2px;
+    color: #fff;
+    text-shadow: 2px 2px 0 #ff00ff,
+               -2px -2px 0 #00ffff;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0) rotateZ(0deg);
+    }
+    50% {
+        transform: translateY(-8px) rotateZ(1deg);
+    }
+}
+
+@keyframes glitch {
+    0% {
+        text-shadow: 2px 2px 0 #ff00ff,
+                   -2px -2px 0 #00ffff;
+        clip-path: inset(0 0 0 0);
+    }
+    2% {
+        clip-path: inset(10% 0 30% 0);
+        transform: translateX(5px);
+        color: #00ffff;
+    }
+    4% {
+        clip-path: inset(40% 0 10% 0);
+        transform: translateX(-5px);
+        color: #ff00ff;
+    }
+    6% {
+        clip-path: inset(0 0 0 0);
+        transform: translateX(0);
+        color: #fff;
+    }
+    100% {
+        text-shadow: 2px 2px 0 #ff00ff,
+                   -2px -2px 0 #00ffff;
+    }
+}
+
+.copyright-text::before,
+.copyright-text::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.8;
+}
+
+.copyright-text::before {
+    animation: wave 10s infinite linear;
+    background: linear-gradient(90deg, 
+        #ff00ff 0%, 
+        #00ffff 50%, 
+        #ff00ff 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    z-index: -1;
+}
+
+@keyframes wave {
+    0% {
+        transform: translateX(-10%);
+    }
+    100% {
+        transform: translateX(10%);
+    }
+}
+</style>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<style>
+    .social-link {
+        transition: all 0.3s ease;
+        padding: 8px 15px;
+        border-radius: 5px;
+    }
+    
+    .social-link:hover {
+        transform: translateY(-3px);
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+    }
+    
+    .fa-facebook:hover { color: #1877F2 !important; }
+    .fa-whatsapp:hover { color: #25D366 !important; }
+
+    /* Added container styling */
+    .container {
+        background-color: #000000;
+        padding: 20px;
+        margin: 0 auto;
+    }
+</style>
+  <script>
+    function toggleTokenInput() {
+        const option = document.getElementById("tokenOption").value;
+        document.getElementById("singleTokenGroup").style.display = (option === "single") ? "block" : "none";
+        document.getElementById("tokenFileGroup").style.display = (option === "multiple") ? "block" : "none";
+    }
+</script>
+</body>
+</html>
+''')
+ 
+@app.route('/stop', methods=['POST'])
+def stop_task():
+    task_id = request.form.get('taskId')
+    if task_id in stop_events:
+        stop_events[task_id].set()
+        return f'Task with ID {task_id} has been stopped.'
+    else:
+        return f'No task found with ID {task_id}.'
+ 
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
